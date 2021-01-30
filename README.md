@@ -6,6 +6,7 @@ https://youtu.be/3IdOCxHGMIo
 ### Used Libs
 
 push (https://github.com/Ulydev/push)
+class (https://github.com/vrld/hump)
 
 ### Assets
 
