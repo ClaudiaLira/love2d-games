@@ -6,8 +6,14 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
+local BACKGROUND_SCROLL_SPEED = 30
+local GROUND_SCROLL_SPEED = 60
+local BACKGROUND_LOOPING_POINT = 413
+
 local background = love.graphics.newImage('resources/sprites/background.png')
+local backgroundScroll = 0
 local ground = love.graphics.newImage('resources/sprites/ground.png')
+local groundScroll = 0
 
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -31,9 +37,14 @@ function love.keypressed(key)
     end
 end
 
+function love.update(dt)
+    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+    groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+end
+
 function love.draw()
     push:start()
-    love.graphics.draw(background, 0, 0)
-    love.graphics.draw(ground, 0, VIRTUAL_HEIGHT - 16)
+    love.graphics.draw(background, -backgroundScroll, 0)
+    love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
     push:finish()
 end
