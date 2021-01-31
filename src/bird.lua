@@ -2,6 +2,10 @@ Bird = Class()
 
 local GRAVITY = 20
 local ANTI_GRAVITY = -5
+local OFFSET = 2
+
+BIRD_WIDTH =38
+BIRD_HEIGHT = 24
 
 function Bird:init()
     self.image = love.graphics.newImage('resources/sprites/bird.png')
@@ -25,4 +29,14 @@ function Bird:update(dt)
         self.dy = ANTI_GRAVITY
     end
     self.y = self.y + self.dy
+end
+
+function Bird:collides(pipe)
+    if (self.x + OFFSET) + (self.width - 2 * OFFSET) >= pipe.x and self.x + OFFSET <= pipe.x + PIPE_WIDTH then
+        if (self.y + OFFSET) + (self.height - 2 * OFFSET) >= pipe.y and self.y + OFFSET <= pipe.y + PIPE_HEIGHT then
+            return true
+        end
+    end
+
+    return false
 end

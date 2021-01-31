@@ -20,6 +20,9 @@ function PipePair:update(dt)
         self.remove = true
     else
         self.x = self.x - PIPE_SPEED * dt
+        -- TODO: ground moves in a different speed from pipe if we fix jitter movement with math.floor
+        -- self.x = math.floor(self.x - PIPE_SPEED * dt)
+
         self.pipes['upper'].x = self.x
         self.pipes['lower'].x = self.x
     end
