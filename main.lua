@@ -8,6 +8,7 @@ require('src.state_machine')
 require('src.states.base_state')
 require('src.states.play_state')
 require('src.states.title_state')
+require('src.states.score_state')
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -48,7 +49,8 @@ function love.load()
 
     gStateMachine = StateMachine{
         ['title'] = function () return TitleState() end,
-        ['play'] = function () return PlayState() end
+        ['play'] = function () return PlayState() end,
+        ['score'] = function () return ScoreState() end
     }
 
     gStateMachine:change('title')
