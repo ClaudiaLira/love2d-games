@@ -8,8 +8,8 @@ function Paddle:init()
     self.width = 64
     self.height = 16
 
-    self.skin = 1
-    self.size = 2
+    self.skin = PADDLE_SKIN['red']
+    self.size = PADDLE_SIZE['medium']
 end
 
 function Paddle:update(dt)
@@ -22,7 +22,6 @@ function Paddle:update(dt)
     end
 
     if self.dx < 0 then
-        print(self.dx)
         self.x = math.max(0, self.x + self.dx * dt)
     else
         self.x = math.min(VIRTUAL_WIDTH - self.width, self.x + self.dx * dt)

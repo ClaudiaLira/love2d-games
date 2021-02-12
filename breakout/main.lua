@@ -21,13 +21,13 @@ function love.load()
         ['hearts'] = love.graphics.newImage('assets/images/hearts.png'),
         ['particle'] = love.graphics.newImage('assets/images/particle.png'),
     }
-    print(WINDOW_WIDTH)
+
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
         fullscreen = false,
         resizable = true
     })
-    
+
     Sounds = {
         ['paddle-hit'] = love.audio.newSource('assets/sounds/paddle_hit.wav', 'static'),
         ['score'] = love.audio.newSource('assets/sounds/score.wav', 'static'),
@@ -46,7 +46,9 @@ function love.load()
     }
 
     Frames = {
-        ['paddles'] = GenerateQuadsPaddles(Textures['main'])
+        ['paddles'] = GenerateQuadsPaddles(Textures['main']),
+        ['balls'] = GenerateQuadsBalls(Textures['main']),
+        ['bricks'] = GenerateQuadBricks(Textures['main'])
     }
 
     gStateMachine = StateMachine {
