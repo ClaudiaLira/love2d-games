@@ -10,6 +10,8 @@ function Paddle:init()
 
     self.skin = PADDLE_SKIN['red']
     self.size = PADDLE_SIZE['medium']
+    self.textureFrame = Frames['paddles'][self.size + 4 * (self.skin - 1)]
+    assert(self.textureFrame, "Texture for Paddle not found!")
 end
 
 function Paddle:update(dt)
@@ -29,5 +31,5 @@ function Paddle:update(dt)
 end
 
 function Paddle:render()
-    love.graphics.draw(Textures['main'], Frames['paddles'][self.size + 4 * (self.skin - 1)], self.x, self.y)
+    love.graphics.draw(Textures['main'], self.textureFrame, self.x, self.y)
 end

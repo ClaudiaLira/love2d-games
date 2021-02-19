@@ -96,3 +96,15 @@ function DisplayFPS()
     love.graphics.setColor(0, 1, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
 end
+
+function love.quit()
+    print("Thanks for playing. Please play again soon!")
+end
+
+function love.focus(f)
+    if f then
+      print("Window is focused.")
+    else
+      print("Window is not focused.")
+    end
+  end
