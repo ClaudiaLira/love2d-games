@@ -1,6 +1,6 @@
 Paddle = Class {}
 
-function Paddle:init()
+function Paddle:init(skin)
     self.x = VIRTUAL_WIDTH / 2 - 32
     self.y = VIRTUAL_HEIGHT - 32
 
@@ -8,7 +8,7 @@ function Paddle:init()
     self.width = 64
     self.height = 16
 
-    self.skin = PADDLE_SKIN['red']
+    self.skin = skin
     self.size = PADDLE_SIZE['medium']
     self.textureFrame = Frames['paddles'][self.size + 4 * (self.skin - 1)]
     assert(self.textureFrame, "Texture for Paddle not found!")

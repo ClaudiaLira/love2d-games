@@ -38,7 +38,6 @@ function push:resetSettings() return self:applySettings(self.defaults) end
 function push:setupScreen(WWIDTH, WHEIGHT, RWIDTH, RHEIGHT, settings)
 
   settings = settings or {}
-  print(RWIDTH)
   self._WWIDTH, self._WHEIGHT = WWIDTH, WHEIGHT
   self._RWIDTH, self._RHEIGHT = RWIDTH, RHEIGHT
 

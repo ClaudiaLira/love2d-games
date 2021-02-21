@@ -12,12 +12,13 @@ function StartState:update(dt)
         Sounds['confirm']:play()
 
         if highlighted == 1 then
-            gStateMachine:change('play')
+            gStateMachine:change('serve', {
+                paddle = Paddle(PADDLE_SKIN['pink']),
+                bricks = LevelMaker.createMap(),
+                health = 3,
+                score = 0
+            })
         end
-    end
-
-    if love.keyboard.wasPressed('escape') then
-        love.event.quit()
     end
 end
 
