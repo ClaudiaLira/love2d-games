@@ -18,3 +18,14 @@ PADDLE_SKIN = {
     ['red'] = 3,
     ['pink'] = 4
 }
+
+-- map shape
+NONE = 1
+SINGLE_PYRAMID = 2
+MULTI_PYRAMID = 3
+
+--map pattern
+SOLID = 1
+ALTERNATE = 2
+SKIP = 3
+NONE = 4

@@ -6,6 +6,7 @@ function PlayState:enter(params)
     self.bricks = params.bricks
     self.health = params.health
     self.score= params.score
+    self.level = params.level
 
     self.ball.dx = math.random(-200, 200)
     self.ball.dy = math.random(-50, -60)
@@ -46,9 +47,22 @@ function PlayState:update(dt)
     end
 
     for _, brick in pairs(self.bricks) do
+        brick:update(dt)
         if brick.inPlay and self.ball:collides(brick) then
             brick:hit()
-            self.score = self.score + 10
+
+            if self:checkVictory() then
+                Sounds['victory']:play()
+                gStateMachine:change('victory', {
+                    level = self.level,
+                    paddle = self.paddle,
+                    ball = self.ball,
+                    health = self.health,
+                    score = self.score
+                })
+            end
+
+            self.score = self.score + (brick.tier * 200 + brick.color * 25)
             if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
                 self.ball.dx = -self.ball.dx
                 self.ball.x = brick.x - self.ball.width
@@ -80,7 +94,8 @@ function PlayState:update(dt)
                 paddle = self.paddle,
                 bricks = self.bricks,
                 health = self.health,
-                score = self.score
+                score = self.score,
+                level = self.level
             })
         end
     end
@@ -92,14 +107,29 @@ function PlayState:render()
         brick:render()
     end
 
+    -- different loop so particles are always rendered above bricks
+    for _, brick in pairs(self.bricks) do
+        brick:renderParticles()
+    end
+
     self.paddle:render()
     self.ball:render()
 
     renderScore(self.score)
     renderHealth(self.health)
+    renderLevelName(self.level)
 
     if self.paused then
         love.graphics.setFont(Fonts['large'])
         love.graphics.printf("PAUSED", 0, VIRTUAL_HEIGHT / 2 - 16, VIRTUAL_WIDTH, 'center')
     end
+end
+
+function PlayState:checkVictory()
+    for _, brick in pairs(self.bricks) do
+        if brick.inPlay then
+            return false
+        end
+    end
+    return true
 end

@@ -5,6 +5,7 @@ function ServeState:enter(params)
     self.bricks = params.bricks
     self.health = params.health
     self.score = params.score
+    self.level = params.level
 
     self.ball = Ball(love.math.random(7))
 end
@@ -21,7 +22,8 @@ function ServeState:update(dt)
             bricks = self.bricks,
             health = self.health,
             score = self.score,
-            ball = self.ball
+            ball = self.ball,
+            level = self.level
         })
     end
 end
@@ -36,6 +38,8 @@ function ServeState:render()
 
     renderScore(self.score)
     renderHealth(self.health)
+    renderLevelName(self.level)
+
 
     love.graphics.printf('Press Enter to serve!', Fonts['medium'], 0, VIRTUAL_HEIGHT / 2,
         VIRTUAL_WIDTH, 'center')
