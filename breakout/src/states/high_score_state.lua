@@ -1,5 +1,9 @@
 HighScoreState = Class { __includes = BaseState }
 
+function HighScoreState:enter()
+    self.highScores = loadHighScores()
+end
+
 function HighScoreState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         Sounds['wall-hit']:play()
@@ -13,8 +17,8 @@ function HighScoreState:render()
 
     love.graphics.setFont(Fonts['medium'])
     for i = 1, 10 do
-        local name = HighScores[i].name or '---'
-        local score = HighScores[i].score or '---'
+        local name = self.highScores[i].name or '---'
+        local score = self.highScores[i].score or '---'
 
         love.graphics.printf(tostring(i)..'.', VIRTUAL_WIDTH/4, 60 + i * 13, 50, 'left')
         love.graphics.printf(name, VIRTUAL_WIDTH / 4 + 38, 60 + i * 13, 50, 'right')

@@ -12,6 +12,7 @@ local highlightedChar = 1
 function EnterHighScoreState:enter(params)
     self.score = params.score
     self.scoreIndex = params.scoreIndex
+    self.highScores = params.highScores
 end
 
 function EnterHighScoreState:update(dt)
@@ -19,26 +20,26 @@ function EnterHighScoreState:update(dt)
         local name = string.char(chars[1]) .. string.char(chars[2]) .. string.char(chars[3])
 
         for i = 10, self.scoreIndex, -1 do
-           HighScores[i + 1] = {
-                name = HighScores[i].name,
-                score = HighScores[i].score
+           self.highScores[i + 1] = {
+                name = self.highScores[i].name,
+                score = self.highScores[i].score
             }
         end
 
-        HighScores[self.scoreIndex].name = name
-        HighScores[self.scoreIndex].score = self.score
+        self.highScores[self.scoreIndex].name = name
+        self.highScores[self.scoreIndex].score = self.score
 
         local scoresStr = ''
 
         for i = 1, 10 do
-            scoresStr = scoresStr .. HighScores[i].name .. '\n'
-            scoresStr = scoresStr .. HighScores[i].score .. '\n'
+            scoresStr = scoresStr .. self.highScores[i].name .. '\n'
+            scoresStr = scoresStr .. self.highScores[i].score .. '\n'
         end
 
         love.filesystem.write('breakout.lst', scoresStr)
 
         gStateMachine:change('high-scores', {
-            highScores = HighScores
+            highScores = self.highScores
         })
     end
 

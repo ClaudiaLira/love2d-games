@@ -66,7 +66,6 @@ function love.load()
         ['high-scores'] = function () return HighScoreState() end,
         ['enter-high-score'] = function () return EnterHighScoreState() end
     }
-    HighScores = loadHighScores()
 
     gStateMachine:change('start')
 
@@ -104,45 +103,6 @@ function love.draw()
     gStateMachine:render()
     DisplayFPS()
     push:apply('end')
-end
-
-function loadHighScores()
-    love.filesystem.setIdentity('breakout')
-
-    if not love.filesystem.getInfo('breakout.lst') then
-        local scores = ''
-        for i = 10, 1, -1 do
-            scores = scores .. 'AAA\n'
-            scores = scores .. tostring(i * 1000) .. '\n'
-        end
-
-        love.filesystem.write('breakout.lst', scores)
-    end
-
-    local isName = true
-    local currentName = nil
-    local counter = 1
-
-    local scores = {}
-
-    for i = 1, 10 do
-        scores[i] = {
-            name = nil,
-            score = nil
-        }
-    end
-
-    for line in love.filesystem.lines('breakout.lst') do
-        if isName then
-            scores[counter].name = string.sub(line, 1, 3)
-        else
-            scores[counter].score = tonumber(line)
-            counter = counter + 1
-        end
-
-        isName = not isName
-    end
-    return scores
 end
 
 function love.quit()

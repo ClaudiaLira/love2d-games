@@ -2,6 +2,7 @@ GameOverState = Class { __includes = BaseState }
 
 function GameOverState:enter(params)
     self.score = params.score
+    self.highScores = loadHighScores()
 end
 
 function GameOverState:update(dt)
@@ -11,7 +12,7 @@ function GameOverState:update(dt)
         local scoreIndex = 11
 
         for i = 10, 1, -1 do
-            local score = HighScores[i].score or 0
+            local score = self.highScores[i].score or 0
             if self.score > score then
                 highScoreIndex = i
                 isHighScore = true
@@ -22,7 +23,8 @@ function GameOverState:update(dt)
             Sounds['high-score']:play()
             gStateMachine:change('enter-high-score', {
                 score = self.score,
-                scoreIndex = highScoreIndex
+                scoreIndex = highScoreIndex,
+                highScores = self.highScores
             })
         else
             gStateMachine:change('start')
