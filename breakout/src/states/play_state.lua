@@ -87,7 +87,7 @@ function PlayState:update(dt)
 
         if self.health == 0 then
             gStateMachine:change('game-over', {
-                score = self.score
+                score = self.score,
             })
         else
             gStateMachine:change('serve', {

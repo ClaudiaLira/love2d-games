@@ -1,5 +1,10 @@
 require 'src.dependencies'
 
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+end
+
+
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -57,8 +62,11 @@ function love.load()
         ['play'] = function () return PlayState() end,
         ['serve'] = function () return ServeState() end,
         ['game-over'] = function () return GameOverState() end,
-        ['victory'] = function () return VictoryState() end
+        ['victory'] = function () return VictoryState() end,
+        ['high-scores'] = function () return HighScoreState() end,
+        ['enter-high-score'] = function () return EnterHighScoreState() end
     }
+    HighScores = loadHighScores()
 
     gStateMachine:change('start')
 
@@ -98,34 +106,43 @@ function love.draw()
     push:apply('end')
 end
 
-function renderHealth(health)
-    local healthX = VIRTUAL_WIDTH - 100
-    local maxHealth = 3
+function loadHighScores()
+    love.filesystem.setIdentity('breakout')
 
-    for i = 1, maxHealth do
-        if i <= health then
-            love.graphics.draw(Textures['hearts'], Frames['hearts'][1], healthX, 4)
-        else
-            love.graphics.draw(Textures['hearts'], Frames['hearts'][2], healthX, 4)
+    if not love.filesystem.getInfo('breakout.lst') then
+        local scores = ''
+        for i = 10, 1, -1 do
+            scores = scores .. 'AAA\n'
+            scores = scores .. tostring(i * 1000) .. '\n'
         end
-        healthX = healthX + 11
+
+        love.filesystem.write('breakout.lst', scores)
     end
-end
 
-function renderScore(score)
-    love.graphics.setFont(Fonts['small'])
-    love.graphics.print('Score:', VIRTUAL_WIDTH - 60, 5)
-    love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
-end
+    local isName = true
+    local currentName = nil
+    local counter = 1
 
-function renderLevelName(name)
-    love.graphics.printf('Level '..name, 0, 15,VIRTUAL_WIDTH - 10, 'right')
-end
+    local scores = {}
 
-function DisplayFPS()
-    love.graphics.setFont(Fonts['small'])
-    love.graphics.setColor(0, 1, 0, 1)
-    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
+    for i = 1, 10 do
+        scores[i] = {
+            name = nil,
+            score = nil
+        }
+    end
+
+    for line in love.filesystem.lines('breakout.lst') do
+        if isName then
+            scores[counter].name = string.sub(line, 1, 3)
+        else
+            scores[counter].score = tonumber(line)
+            counter = counter + 1
+        end
+
+        isName = not isName
+    end
+    return scores
 end
 
 function love.quit()

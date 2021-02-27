@@ -6,7 +6,27 @@ end
 
 function GameOverState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        gStateMachine:change('start')
+        local isHighScore = false
+
+        local scoreIndex = 11
+
+        for i = 10, 1, -1 do
+            local score = HighScores[i].score or 0
+            if self.score > score then
+                highScoreIndex = i
+                isHighScore = true
+            end
+        end
+
+        if isHighScore then
+            Sounds['high-score']:play()
+            gStateMachine:change('enter-high-score', {
+                score = self.score,
+                scoreIndex = highScoreIndex
+            })
+        else
+            gStateMachine:change('start')
+        end
     end
 end
 

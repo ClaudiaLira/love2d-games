@@ -71,3 +71,33 @@ function GenerateQuadBricks(atlas)
     quads = GenerateQuads(atlas, 32, 16)
     return table.slice(quads, 1, 21)
 end
+
+function renderHealth(health)
+    local healthX = VIRTUAL_WIDTH - 100
+    local maxHealth = 3
+
+    for i = 1, maxHealth do
+        if i <= health then
+            love.graphics.draw(Textures['hearts'], Frames['hearts'][1], healthX, 4)
+        else
+            love.graphics.draw(Textures['hearts'], Frames['hearts'][2], healthX, 4)
+        end
+        healthX = healthX + 11
+    end
+end
+
+function renderScore(score)
+    love.graphics.setFont(Fonts['small'])
+    love.graphics.print('Score:', VIRTUAL_WIDTH - 60, 5)
+    love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
+end
+
+function renderLevelName(name)
+    love.graphics.printf('Level '..name, 0, 15,VIRTUAL_WIDTH - 10, 'right')
+end
+
+function DisplayFPS()
+    love.graphics.setFont(Fonts['small'])
+    love.graphics.setColor(0, 1, 0, 1)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
+end

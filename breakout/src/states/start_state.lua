@@ -19,6 +19,8 @@ function StartState:update(dt)
                 score = 0,
                 level = 1
             })
+        else
+            gStateMachine:change('high-scores')
         end
     end
 end
