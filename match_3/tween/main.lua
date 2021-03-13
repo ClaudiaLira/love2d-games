@@ -15,7 +15,7 @@ function love.load()
 
     birds = {}
 
-    for i = 1, 1000 do
+    for _ = 1, 1000 do
         table.insert(birds, {
             x = 0,
             y = math.random(VIRTUAL_HEIGHT) - 24,
